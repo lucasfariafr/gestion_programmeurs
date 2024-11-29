@@ -1,14 +1,19 @@
 package org.example;
 
 public class Programmeur {
+    private int id;
     private String nom;
     private String prenom;
-    private String anNaissance;
-    private String salaire;
-    private String prime;
+    private int anNaissance;
+    private double salaire;
+    private double prime;
     private String pseudo;
 
-    public Programmeur(String nom, String prenom, String anNaissance, String salaire, String prime, String pseudo) {
+    public Programmeur() {
+    }
+
+    public Programmeur(int id, String nom, String prenom, int anNaissance, double salaire, double prime, String pseudo) {
+        this.id = id;
         this.nom = nom;
         this.prenom = prenom;
         this.anNaissance = anNaissance;
@@ -19,8 +24,63 @@ public class Programmeur {
 
     @Override
     public String toString() {
-        return "Nom: " + nom + " | Prénom: " + prenom + " | Année de naissance: " + anNaissance +
+        return "Id: " + id + " | Nom: " + nom + " | Prénom: " + prenom + " | Année de naissance: " + anNaissance +
                 " | Salaire: " + salaire + " | Prime: " + prime + " | Pseudo: " + pseudo;
     }
-}
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public String getPrenom() {
+        return prenom;
+    }
+
+    public void setPrenom(String prenom) {
+        this.prenom = prenom;
+    }
+
+    public int getAnNaissance() {
+        return anNaissance;
+    }
+
+    public void setAnNaissance(int anNaissance) {
+        this.anNaissance = anNaissance;
+    }
+
+    public double getSalaire() {
+        return salaire;
+    }
+
+    public void setSalaire(double salaire) {
+        this.salaire = salaire;
+    }
+
+    public double getPrime() {
+        return prime;
+    }
+
+    public void setPrime(double prime) {
+        this.prime = prime;
+    }
+
+    public String getPseudo() {
+        return pseudo;
+    }
+
+    public void setPseudo(String pseudo) {
+        this.pseudo = pseudo;
+    }
+}

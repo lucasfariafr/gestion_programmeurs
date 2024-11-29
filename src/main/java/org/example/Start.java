@@ -14,12 +14,6 @@ public class Start {
     }
 
     public static void main(String[] args) {
-        try (Connection connection = getConnection()) {
-            if (connection != null) {
-                System.out.println("Connexion réussie");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        new Menu().afficherMenu();
     }
 }
