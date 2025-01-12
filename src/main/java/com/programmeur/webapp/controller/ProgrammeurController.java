@@ -8,6 +8,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 /**
  * Contrôleur pour la gestion des programmeurs. Cette classe gère les requêtes HTTP liées
  * aux opérations de consultation, modification, ajout et suppression des programmeurs.
@@ -131,5 +134,28 @@ public class ProgrammeurController {
         // Ajout du programmeur à la base de données
         programmeurService.ajouterProgrammeur(programmeur);
         return "redirect:/repertoire";
+    }
+
+    /**
+     * Affiche les statistiques des programmeurs.
+     *
+     * @param model Le modèle pour passer les données à la vue.
+     * @return La vue "layout", avec le contenu de la page "statistique.html".
+     */
+    @GetMapping("/statistique")
+    public String afficherKPI(Model model) {
+        model.addAttribute("pageContent", "statistique.html");
+        return "layout";
+    }
+
+    /**
+     * Récupère les données statistiques des programmeurs pour affichage sous forme de JSON.
+     *
+     * @return La liste des programmeurs sous forme de JSON.
+     */
+    @GetMapping("/data")
+    @ResponseBody
+    public List<Programmeur> recupererKPI() {
+        return programmeurService.recuperer();
     }
 }

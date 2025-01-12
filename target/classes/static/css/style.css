@@ -254,3 +254,36 @@ button[type="submit"], button[type="button"] {
 button[type="submit"]:hover, button[type="button"]:hover {
     background-color: #3b73e6;
 }
+
+/* KPI */
+.container-kpis {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+/* Style pour chaque KPI */
+.kpi-item {
+    flex: 1;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.kpi-item canvas {
+    width: 100% !important;
+    height: auto !important;
+}
+
+.kpi-item h3 {
+    font-size: 2.5em;
+    margin: 0;
+}

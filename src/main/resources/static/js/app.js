@@ -4,9 +4,9 @@ function confirmerSuppression(id) {
 
     // Si l'utilisateur confirme la suppression
     document.getElementById('modal-yes').onclick = () => {
-        fetch(`/supprimer/${id}`, {method: 'DELETE'})
-            .then(response => response.ok ? location.reload() : alert('Erreur de suppression'))  // Si la suppression réussit, recharge la page
-            .catch(() => alert('Erreur de suppression'));  // Erreur en cas d'échec
+        fetch(`/supprimer/${id}`, { method: 'DELETE' })
+            .then(response => response.ok ? location.reload() : alert('Erreur de suppression')) // Si la suppression réussit, recharge la page
+            .catch(() => alert('Erreur de suppression')); // Erreur en cas d'échec
         modal.style.display = 'none';
     };
 
@@ -26,11 +26,11 @@ function confirmerModification(id) {
             if (!response.ok) {
                 throw new Error('Erreur de récupération des données');
             }
-            return response.json();  // Retourne les données en JSON
+            return response.json(); // Retourne les données en JSON
         })
         .then(data => {
             if (data) {
-                // Remplie le formulaire de modification avec les données récupérées
+                // Remplir le formulaire de modification avec les données récupérées
                 document.getElementById('modifier-id').value = data.id || '';
                 document.getElementById('modifier-nom').value = data.nom || '';
                 document.getElementById('modifier-prenom').value = data.prenom || '';
@@ -45,9 +45,9 @@ function confirmerModification(id) {
             alert('Erreur de récupération des données');
         });
 
-    // Soumet le formulaire de modification
+    // Soumettre le formulaire de modification
     document.getElementById('form-modifier').onsubmit = function (event) {
-        event.preventDefault();  // Empêche la soumission par défaut
+        event.preventDefault(); // Empêche la soumission par défaut
 
         // Récupère les valeurs du formulaire
         const id = document.getElementById('modifier-id').value;
@@ -77,8 +77,8 @@ function confirmerModification(id) {
             },
             body: JSON.stringify(programmeurModifie)
         })
-            .then(response => response.ok ? location.reload() : alert('Erreur de mise à jour'))  // Si la mise à jour réussit, recharge la page
-            .catch(() => alert('Erreur de mise à jour'));  // Erreur en cas d'échec
+            .then(response => response.ok ? location.reload() : alert('Erreur de mise à jour')) // Si la mise à jour réussit, recharge la page
+            .catch(() => alert('Erreur de mise à jour')); // Erreur en cas d'échec
 
         modalModifier.style.display = 'none';
     };
@@ -89,23 +89,46 @@ function confirmerModification(id) {
     };
 }
 
-function validateForm() {
-    // Récupère les valeurs des champs du formulaire
-    const nom = document.getElementById("nom").value;
-    const prenom = document.getElementById("prenom").value;
-    const anNaissance = document.getElementById("anNaissance").value;
-    const salaire = document.getElementById("salaire").value;
-    const prime = document.getElementById("prime").value;
-    const pseudo = document.getElementById("pseudo").value;
+// Gestion des KPI
+document.addEventListener("DOMContentLoaded", function () {
+    // Récupération des données des programmeurs
+    fetch('/data')
+        .then(response => response.json())
+        .then(data => {
+            // Récupération des noms et salaires
+            const programmeursNom = data.map(p => p.nom);
+            const programmeursSalaire = data.map(p => p.salaire);
 
-    // Vérifie si tous les champs sont remplis
-    if (!nom || !prenom || !anNaissance || !salaire || !prime || !pseudo) {
-        alert("Tous les champs doivent être remplis.");
-        return false;  // Empêche la soumission si un champ est vide
-    }
+            // Mettre à jour le nombre de programmeurs
+            document.getElementById('nombre-programmeurs').innerText = data.length;
 
-    return true;
-}
+            // Création du graphique des salaires
+            const ctx = document.getElementById('salaireChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: programmeursNom,
+                    datasets: [{
+                        label: 'Salaire des programmeurs',
+                        data: programmeursSalaire,
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        })
+        .catch(error => {
+            console.error('Erreur de récupération des programmeurs:', error);
+        });
+});
 
 // Ferme les modales si l'utilisateur clique en dehors
 window.onclick = (event) => {

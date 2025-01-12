@@ -1,24 +1,24 @@
 function confirmerSuppression(id) {
     const modal = document.getElementById('modal');
-    modal.style.display = 'flex';  // Affiche la modale de confirmation
+    modal.style.display = 'flex';
 
     // Si l'utilisateur confirme la suppression
     document.getElementById('modal-yes').onclick = () => {
-        fetch(`/supprimer/${id}`, {method: 'DELETE'})
-            .then(response => response.ok ? location.reload() : alert('Erreur de suppression'))  // Si la suppression réussit, recharge la page
-            .catch(() => alert('Erreur de suppression'));  // Erreur en cas d'échec
-        modal.style.display = 'none';  // Ferme la modale
+        fetch(`/supprimer/${id}`, { method: 'DELETE' })
+            .then(response => response.ok ? location.reload() : alert('Erreur de suppression')) // Si la suppression réussit, recharge la page
+            .catch(() => alert('Erreur de suppression')); // Erreur en cas d'échec
+        modal.style.display = 'none';
     };
 
     // Si l'utilisateur annule la suppression
     document.getElementById('modal-no').onclick = () => {
-        modal.style.display = 'none';  // Ferme la modale
+        modal.style.display = 'none';
     };
 }
 
 function confirmerModification(id) {
     const modalModifier = document.getElementById('modal-modifier');
-    modalModifier.style.display = 'flex';  // Affiche la modale de modification
+    modalModifier.style.display = 'flex';
 
     // Récupère les données du programmeur pour la modification
     fetch(`/programmeur/${id}`)
@@ -26,11 +26,11 @@ function confirmerModification(id) {
             if (!response.ok) {
                 throw new Error('Erreur de récupération des données');
             }
-            return response.json();  // Retourne les données en JSON
+            return response.json(); // Retourne les données en JSON
         })
         .then(data => {
             if (data) {
-                // Remplie le formulaire de modification avec les données récupérées
+                // Remplir le formulaire de modification avec les données récupérées
                 document.getElementById('modifier-id').value = data.id || '';
                 document.getElementById('modifier-nom').value = data.nom || '';
                 document.getElementById('modifier-prenom').value = data.prenom || '';
@@ -41,13 +41,13 @@ function confirmerModification(id) {
             }
         })
         .catch(error => {
-            console.error('Erreur:', error);  // Affiche l'erreur dans la console
+            console.error('Erreur:', error);
             alert('Erreur de récupération des données');
         });
 
-    // Soumet le formulaire de modification
+    // Soumettre le formulaire de modification
     document.getElementById('form-modifier').onsubmit = function (event) {
-        event.preventDefault();  // Empêche la soumission par défaut
+        event.preventDefault(); // Empêche la soumission par défaut
 
         // Récupère les valeurs du formulaire
         const id = document.getElementById('modifier-id').value;
@@ -77,35 +77,58 @@ function confirmerModification(id) {
             },
             body: JSON.stringify(programmeurModifie)
         })
-            .then(response => response.ok ? location.reload() : alert('Erreur de mise à jour'))  // Si la mise à jour réussit, recharge la page
-            .catch(() => alert('Erreur de mise à jour'));  // Erreur en cas d'échec
+            .then(response => response.ok ? location.reload() : alert('Erreur de mise à jour')) // Si la mise à jour réussit, recharge la page
+            .catch(() => alert('Erreur de mise à jour')); // Erreur en cas d'échec
 
-        modalModifier.style.display = 'none';  // Ferme la modale après soumission
+        modalModifier.style.display = 'none';
     };
 
     // Si l'utilisateur annule la modification
     document.getElementById('modal-modifier-no').onclick = function () {
-        modalModifier.style.display = 'none';  // Ferme la modale
+        modalModifier.style.display = 'none';
     };
 }
 
-function validateForm() {
-    // Récupère les valeurs des champs du formulaire
-    const nom = document.getElementById("nom").value;
-    const prenom = document.getElementById("prenom").value;
-    const anNaissance = document.getElementById("anNaissance").value;
-    const salaire = document.getElementById("salaire").value;
-    const prime = document.getElementById("prime").value;
-    const pseudo = document.getElementById("pseudo").value;
+// Gestion des KPI
+document.addEventListener("DOMContentLoaded", function () {
+    // Récupération des données des programmeurs
+    fetch('/data')
+        .then(response => response.json())
+        .then(data => {
+            // Récupération des noms et salaires
+            const programmeursNom = data.map(p => p.nom);
+            const programmeursSalaire = data.map(p => p.salaire);
 
-    // Vérifie si tous les champs sont remplis
-    if (!nom || !prenom || !anNaissance || !salaire || !prime || !pseudo) {
-        alert("Tous les champs doivent être remplis.");
-        return false;  // Empêche la soumission si un champ est vide
-    }
+            // Mettre à jour le nombre de programmeurs
+            document.getElementById('nombre-programmeurs').innerText = data.length;
 
-    return true;  // Soumettre le formulaire si tous les champs sont remplis
-}
+            // Création du graphique des salaires
+            const ctx = document.getElementById('salaireChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: programmeursNom,
+                    datasets: [{
+                        label: 'Salaire des programmeurs',
+                        data: programmeursSalaire,
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        })
+        .catch(error => {
+            console.error('Erreur de récupération des programmeurs:', error);
+        });
+});
 
 // Ferme les modales si l'utilisateur clique en dehors
 window.onclick = (event) => {
@@ -113,6 +136,6 @@ window.onclick = (event) => {
     const modalSuppression = document.getElementById('modal');
 
     if (event.target === modalModifier || event.target === modalSuppression) {
-        event.target.style.display = 'none';  // Ferme la modale
+        event.target.style.display = 'none';
     }
 };
