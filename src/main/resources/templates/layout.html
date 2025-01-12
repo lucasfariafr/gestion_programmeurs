@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion de repertoire pour des programmeurs</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+<div class="container">
+    <!-- Menu de Navigation -->
+    <nav class="menu">
+        <header class="menu-header">
+            <img src="/asset/logo.png" alt="Logo" class="logo" style="height: 60px; width: 60px;">
+        </header>
+        <ul>
+            <li><i class="fas fa-table"></i><a href="/repertoire">Tableau</a></li>
+            <li><i class="fas fa-plus"></i><a href="/inscription">Inscription</a></li>
+        </ul>
+        <footer class="menu-footer">
+            <p>GOAT&copy;</p>
+        </footer>
+    </nav>
+
+    <!-- Contenu Principal -->
+    <div class="content">
+        <div th:replace="${pageContent}"></div>
+    </div>
+</div>
+
+<!-- Modal de modification -->
+<div id="modal-modifier" class="modal">
+    <div class="modal-content">
+        <form id="form-modifier">
+            <input type="hidden" id="modifier-id">
+            <div class="form-group">
+                <label for="modifier-nom">Nom</label>
+                <input type="text" id="modifier-nom" name="nom">
+            </div>
+            <div class="form-group">
+                <label for="modifier-prenom">Prénom</label>
+                <input type="text" id="modifier-prenom" name="prenom">
+            </div>
+            <div class="form-group">
+                <label for="modifier-anNaissance">Année de naissance</label>
+                <input type="number" id="modifier-anNaissance" name="anNaissance">
+            </div>
+            <div class="form-group">
+                <label for="modifier-salaire">Salaire</label>
+                <input type="number" id="modifier-salaire" name="salaire">
+            </div>
+            <div class="form-group">
+                <label for="modifier-prime">Prime</label>
+                <input type="number" id="modifier-prime" name="prime">
+            </div>
+            <div class="form-group">
+                <label for="modifier-pseudo">Pseudo</label>
+                <input type="text" id="modifier-pseudo" name="pseudo">
+            </div>
+            <button type="submit" id="modal-modifier-yes" class="modal-btn">Modifier</button>
+            <button type="button" id="modal-modifier-no" class="modal-btn">Annuler</button>
+        </form>
+    </div>
+</div>
+
+<!-- Modal de confirmation de suppression -->
+<div id="modal" class="modal">
+    <div class="modal-content">
+        <p>Voulez-vous vraiment supprimer ce programmeur ?</p>
+        <button id="modal-yes" class="modal-btn">Oui</button>
+        <button id="modal-no" class="modal-btn">Non</button>
+    </div>
+</div>
+
+<script src="/js/app.js"></script>
+</body>
+</html>

@@ -1,19 +1,30 @@
 package app.console;
 
-import com.programmeur.gestion_programmeurs.model.Programmeur;
+import com.programmeur.webapp.model.Programmeur;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Implémentation de l'interface {@link ActionsBDD}, permettant de gérer les actions CRUD sur les programmeurs dans la base de données.
+ * Cette classe gère les opérations de récupération, d'insertion, de suppression et de mise à jour des programmeurs.
+ */
 public class ActionsBDDImpl implements ActionsBDD {
 
+    // Requêtes SQL
     private static final String SELECT_ALL = "SELECT * FROM programmeur";
     private static final String SELECT_BY_ID = "SELECT * FROM programmeur WHERE id = ?";
     private static final String DELETE_BY_ID = "DELETE FROM programmeur WHERE id = ?";
     private static final String INSERT_PROGRAMMEUR = "INSERT INTO programmeur (nom, prenom, an_naissance, salaire, prime, pseudo) VALUES (?, ?, ?, ?, ?, ?)";
     private static final String UPDATE_SALAIRE = "UPDATE programmeur SET salaire = ? WHERE id = ?";
 
+    /**
+     * Récupère la liste de tous les programmeurs dans la base de données.
+     *
+     * @return une liste de programmeurs.
+     * @throws SQLException si une erreur survient lors de la récupération des données.
+     */
     @Override
     public List<Programmeur> afficherProgrammeurs() throws SQLException {
         List<Programmeur> programmeurs = new ArrayList<>();
@@ -28,6 +39,13 @@ public class ActionsBDDImpl implements ActionsBDD {
         return programmeurs;
     }
 
+    /**
+     * Récupère un programmeur spécifique en fonction de son identifiant.
+     *
+     * @param id l'identifiant du programmeur à récupérer.
+     * @return le programmeur correspondant à l'identifiant, ou null si aucun programmeur n'est trouvé.
+     * @throws SQLException si une erreur survient lors de la récupération des données.
+     */
     @Override
     public Programmeur afficherProgrammeur(int id) throws SQLException {
         try (Connection connection = Start.getConnection();
@@ -43,6 +61,13 @@ public class ActionsBDDImpl implements ActionsBDD {
         return null;
     }
 
+    /**
+     * Supprime un programmeur de la base de données en fonction de son identifiant.
+     *
+     * @param id l'identifiant du programmeur à supprimer.
+     * @return true si la suppression a réussi, false sinon.
+     * @throws SQLException si une erreur survient lors de la suppression des données.
+     */
     @Override
     public boolean supprimerProgrammeur(int id) throws SQLException {
         try (Connection connection = Start.getConnection();
@@ -52,6 +77,13 @@ public class ActionsBDDImpl implements ActionsBDD {
         }
     }
 
+    /**
+     * Ajoute un programmeur à la base de données.
+     *
+     * @param programmeur l'objet programmeur à ajouter.
+     * @return true si l'ajout a réussi, false sinon.
+     * @throws SQLException si une erreur survient lors de l'ajout des données.
+     */
     @Override
     public boolean ajouterProgrammeur(Programmeur programmeur) throws SQLException {
         try (Connection connection = Start.getConnection();
@@ -66,6 +98,14 @@ public class ActionsBDDImpl implements ActionsBDD {
         }
     }
 
+    /**
+     * Modifie le salaire d'un programmeur en fonction de son identifiant.
+     *
+     * @param id             l'identifiant du programmeur dont le salaire doit être modifié.
+     * @param nouveauSalaire le nouveau salaire à attribuer au programmeur.
+     * @return true si la mise à jour a réussi, false sinon.
+     * @throws SQLException si une erreur survient lors de la mise à jour des données.
+     */
     @Override
     public boolean modifierSalaire(int id, double nouveauSalaire) throws SQLException {
         try (Connection connection = Start.getConnection();
@@ -76,6 +116,13 @@ public class ActionsBDDImpl implements ActionsBDD {
         }
     }
 
+    /**
+     * Mappe un {@link ResultSet} en un objet {@link Programmeur}.
+     *
+     * @param resultSet le {@link ResultSet} contenant les données du programmeur.
+     * @return un objet {@link Programmeur} correspondant aux données du {@link ResultSet}.
+     * @throws SQLException si une erreur survient lors de l'extraction des données.
+     */
     private Programmeur mapperProgrammeur(ResultSet resultSet) throws SQLException {
         return new Programmeur(
                 resultSet.getInt("id"),

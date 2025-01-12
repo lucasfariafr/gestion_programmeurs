@@ -1,14 +1,21 @@
 package app.console;
 
-import com.programmeur.gestion_programmeurs.model.Programmeur;
+import com.programmeur.webapp.model.Programmeur;
 
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * Classe représentant le menu de l'application.
+ * Elle permet d'effectuer des actions telles que l'affichage, la recherche, l'ajout, la suppression,
+ * et la mise à jour du salaire des programmeurs.
+ */
 public class Menu {
     private final ActionsBDD actionsBDD = new ActionsBDDImpl();
 
+    /**
+     * Affiche le menu principal et gère les choix de l'utilisateur.
+     */
     public void afficherMenu() {
         Scanner scanner = new Scanner(System.in);
         int choix;
@@ -29,6 +36,9 @@ public class Menu {
         } while (choix != 6);
     }
 
+    /**
+     * Affiche les options du menu principal.
+     */
     private void afficherOptionsMenu() {
         System.out.println("\n--- Menu ---");
         System.out.println("1. Afficher tous les programmeurs");
@@ -40,6 +50,9 @@ public class Menu {
         System.out.print("Quel est votre choix ? : ");
     }
 
+    /**
+     * Affiche tous les programmeurs enregistrés dans la base de données.
+     */
     private void afficherProgrammeurs() {
         try {
             if (!estVide()) {
@@ -47,12 +60,16 @@ public class Menu {
             } else {
                 System.out.println("Aucun programmeur enregistré.");
             }
-            ;
         } catch (Exception e) {
             System.out.println("Erreur lors de l'affichage des programmeurs : " + e.getMessage());
         }
     }
 
+    /**
+     * Affiche un programmeur spécifique en fonction de son identifiant.
+     *
+     * @param scanner l'objet Scanner utilisé pour la saisie utilisateur.
+     */
     private void afficherProgrammeur(Scanner scanner) {
         if (!estVide()) {
             int id;
@@ -79,6 +96,11 @@ public class Menu {
         }
     }
 
+    /**
+     * Supprime un programmeur de la base de données en fonction de son identifiant.
+     *
+     * @param scanner l'objet Scanner utilisé pour la saisie utilisateur.
+     */
     private void supprimerProgrammeur(Scanner scanner) {
         if (!estVide()) {
             int id;
@@ -90,7 +112,7 @@ public class Menu {
 
                 try {
                     if (actionsBDD.supprimerProgrammeur(id)) {
-                        System.out.println("Suppression reussie !");
+                        System.out.println("Suppression réussie !");
                         break;
                     } else {
                         System.out.print("Programmeur introuvable. Veuillez réessayer : ");
@@ -104,6 +126,11 @@ public class Menu {
         }
     }
 
+    /**
+     * Ajoute un programmeur à la base de données en demandant les informations à l'utilisateur.
+     *
+     * @param scanner l'objet Scanner utilisé pour la saisie utilisateur.
+     */
     private void ajouterProgrammeur(Scanner scanner) {
         scanner.nextLine();
 
@@ -137,6 +164,11 @@ public class Menu {
         }
     }
 
+    /**
+     * Modifie le salaire d'un programmeur en fonction de son identifiant.
+     *
+     * @param scanner l'objet Scanner utilisé pour la saisie utilisateur.
+     */
     private void modifierSalaire(Scanner scanner) {
         if (!estVide()) {
             int id;
@@ -171,6 +203,12 @@ public class Menu {
         }
     }
 
+    /**
+     * Lit une chaîne de caractères saisie par l'utilisateur, avec une validation pour n'accepter que des lettres.
+     *
+     * @param scanner l'objet Scanner utilisé pour la saisie utilisateur.
+     * @return la chaîne saisie par l'utilisateur.
+     */
     private String lireString(Scanner scanner) {
         String texte;
         while (true) {
@@ -183,6 +221,12 @@ public class Menu {
         }
     }
 
+    /**
+     * Lit un entier saisi par l'utilisateur avec validation.
+     *
+     * @param scanner l'objet Scanner utilisé pour la saisie utilisateur.
+     * @return l'entier saisi.
+     */
     private int lireEntier(Scanner scanner) {
         while (!scanner.hasNextInt()) {
             System.out.print("Veuillez entrer un entier valide : ");
@@ -191,6 +235,12 @@ public class Menu {
         return scanner.nextInt();
     }
 
+    /**
+     * Lit un nombre à virgule flottante saisi par l'utilisateur avec validation.
+     *
+     * @param scanner l'objet Scanner utilisé pour la saisie utilisateur.
+     * @return le nombre saisi.
+     */
     private double lireDouble(Scanner scanner) {
         while (!scanner.hasNextDouble()) {
             System.out.print("Veuillez entrer un nombre valide : ");
@@ -199,6 +249,11 @@ public class Menu {
         return scanner.nextDouble();
     }
 
+    /**
+     * Vérifie si la liste des programmeurs est vide.
+     *
+     * @return true si la liste des programmeurs est vide, false sinon.
+     */
     private boolean estVide() {
         try {
             List<Programmeur> programmeurs = actionsBDD.afficherProgrammeurs();
