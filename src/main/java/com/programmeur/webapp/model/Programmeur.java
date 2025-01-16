@@ -10,26 +10,14 @@ import jakarta.persistence.*;
 @Table(name = "programmeur")
 public class Programmeur {
 
-    // Identifiant unique du programmeur dans la base de données
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
-    // Nom du programmeur
     private String nom;
-
-    // Prénom du programmeur
     private String prenom;
-
-    // Année de naissance du programmeur
     private int anNaissance;
-
-    // Salaire du programmeur
     private double salaire;
-
-    // Prime du programmeur
     private double prime;
-
-    // Pseudo du programmeur
     private String pseudo;
 
     /**
