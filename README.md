@@ -25,12 +25,27 @@ Exécutez le script `start.bat` pour démarrer l'application et ses services Doc
     -   Démarrer les services Docker nécessaires via `docker-compose`.
     -   Afficher les URLs où accéder à phpMyAdmin et à l'application Spring Boot.
 
-2.  **Une fois les services démarrés, vous pouvez accéder à** :
+3.  **Une fois les services démarrés, vous pouvez accéder à** :
     
     -   **phpMyAdmin** : [http://localhost:8081](http://localhost:8081) (pour gérer la base de données)
     -   **Application Spring Boot** : [http://localhost:8080](http://localhost:8080) (pour accéder à l'interface web)
-3.  **Pour arrêter les services**, appuyez sur **Entrée** dans le terminal où le script est en cours d'exécution.
-4. **Pour lancer l'application avec la console**:
+
+4. **Insérer le script d'insertion dans la table programmeur phpMyAdmin**
+Accéder au service phpMyAdmin :
+- user : lfaria
+- password : root
+
+```
+INSERT INTO programmeur (
+    id, an_naissance, nom, prenom, prime, pseudo, salaire
+) VALUES
+(1, 2003, 'Faria', 'Lucas', 180.0, 'lfaria', 940.0),
+(2, 2003, 'Sylla', 'Elhadj', 0.0, 'shadj', 1040.0),
+(3, 1988, 'Oueyeya', 'Gaetan', 50.0, 'ldurand', 1300.0),
+(4, 1992, 'Mestrinho', 'Julie', 130.0, 'pjulio', 1430.0);
+````
+5.  **Pour arrêter les services**, appuyez sur **Entrée** dans le terminal où le script est en cours d'exécution.
+6. **Pour lancer l'application avec la console**:
 Exécuter la classe Start dans le package `app.console`
 
 ## Technologies utilisées
