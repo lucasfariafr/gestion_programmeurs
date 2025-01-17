@@ -30,7 +30,8 @@ Exécutez le script `start.bat` pour démarrer l'application et ses services Doc
     -   **phpMyAdmin** : [http://localhost:8081](http://localhost:8081) (pour gérer la base de données)
     -   **Application Spring Boot** : [http://localhost:8080](http://localhost:8080) (pour accéder à l'interface web)
 
-4. **Insérer le script d'insertion dans la table programmeur phpMyAdmin**
+4. **Insérer le script d'insertion dans la table programmeur phpMyAdmin** :
+
 Accéder au service phpMyAdmin :
 - user : lfaria
 - password : root
@@ -46,6 +47,7 @@ INSERT INTO programmeur (
 ````
 5.  **Pour arrêter les services**, appuyez sur **Entrée** dans le terminal où le script est en cours d'exécution.
 6. **Pour lancer l'application avec la console**:
+
 Exécuter la classe Start dans le package `app.console`
 
 ## Technologies utilisées
